@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: java-app
+  name: java
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: java-app
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: java-app
+    spec:
+      containers:
+      - image: asia-east1-docker.pkg.dev/charged-gravity-425405-j6/docker-image/java-application
+        name: java-application
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: java-application-service
+spec:
+  selector:
+    app: java-app      # Match labels used in your Deployment
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080       # Port on the Service
+      targetPort: 8080 # Port on the container/pod
+  type: NodePort      # Type of Service (ClusterIP is default)
