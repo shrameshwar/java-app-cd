@@ -33,4 +33,4 @@ spec:
       protocol: TCP
       port: 8080       # Port on the Service
       targetPort: 8080 # Port on the container/pod
-  type: NodePort      # Type of Service (ClusterIP is default)
+  type: ClusterIP     # Type of Service (ClusterIP is default)
