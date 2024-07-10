@@ -70,7 +70,7 @@ pipeline {
         }
         stage('Deploy to GKE'){
             steps{
-                sh 'kubectl apply -f deployment.yaml -f ingress.yaml -n ${NAMESPACE}'
+                sh 'kubectl apply -f Deployment.yml -f ingress.yml -n ${NAMESPACE}'
             }
         }
     }
