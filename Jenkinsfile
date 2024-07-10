@@ -2,8 +2,8 @@ pipeline {
     agent any
     
     parameters {
-        string(name: 'IMAGE_NAME')
-        string(name: 'NAMESPACE')
+        string(name: 'IMAGE_NAME', defaultValue: 'asia-east1-docker.pkg.dev/charged-gravity-425405-j6/docker-image/java-application')
+        string(name: 'NAMESPACE', defaultValue: 'shram')
     }
     
     environment {
