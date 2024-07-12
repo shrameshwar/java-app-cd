@@ -2,8 +2,9 @@ pipeline {
     agent any
     
     parameters {
-        string(name: 'IMAGE_NAME', defaultValue: 'asia-east1-docker.pkg.dev/charged-gravity-425405-j6/docker-image/java-application')
-        string(name: 'NAMESPACE', defaultValue: 'shram')
+        string(name: 'Image_name')
+        string(name: 'Tags')
+        string(name: 'NAMESPACE')
     }
     
     environment {
@@ -35,11 +36,11 @@ pipeline {
         stage('Artifact image existance') {
             steps {
                 script {
-                    def result = sh(returnStdout: true, script: "gcloud artifacts docker images list ${params.IMAGE_NAME} --include-tags")
+                    def result = sh(returnStdout: true, script: "gcloud artifacts files list --project=charged-gravity-425405-j6 --repository=docker-image --location=asia-east1 --package=${params.Image_name} --tag=${params.Tags}")
                     if (result.trim() != "") {
-                        echo "Image ${params.IMAGE_NAME} exists in Artifact Registry!"
+                        echo "Image asia-east1-docker.pkg.dev/charged-gravity-425405-j6/docker-image/${params.Image_name}:${params.Tags} exists in Artifact Registry!"
                     } else {
-                        error "Image ${params.IMAGE_NAME} does not exist in Artifact Registry. Aborting deployment."
+                        error "Image asia-east1-docker.pkg.dev/charged-gravity-425405-j6/docker-image/${params.Image_name}:${params.Tags} does not exist in Artifact Registry. Aborting deployment."
                     }
                 }
             }
@@ -70,7 +71,12 @@ pipeline {
         }
         stage('Deploy to GKE'){
             steps{
-                sh 'kubectl apply -f Deployment.yml -f ingress.yml -n ${NAMESPACE}'
+                sh '''
+                sed -i 's|\${Image_name}|${params.Image_name}|g' Deployment.yml
+                sed -i 's|\${Tags}|${params.Tags}|g' Deployment.yml
+                kubectl apply -f Deployment.yml -f ingress.yaml -n ${NAMESPACE}
+                kubectl apply -f ingress.yaml -n ${NAMESPACE}
+                '''
             }
         }
     }
