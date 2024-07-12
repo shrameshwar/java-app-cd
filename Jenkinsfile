@@ -2,9 +2,9 @@ pipeline {
     agent any
     
     parameters {
-        string(name: 'Image_name')
-        string(name: 'Tags')
-        string(name: 'NAMESPACE')
+        string(name: 'Image_name', defaultValue: 'java-application')
+        string(name: 'Tags', defaultValue: 'latest')
+        string(name: 'NAMESPACE', defaultValue: 'shram')
     }
     
     environment {
