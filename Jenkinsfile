@@ -17,7 +17,7 @@ pipeline {
     stages {
         stage('gitpull') {
             steps {
-                git url: 'https://github.com/rajat11299/CD-repo.git', branch: 'main'
+                git url: 'https://github.com/shrameshwar/java-app-cd.git', branch: 'main'
             }
         }
         
