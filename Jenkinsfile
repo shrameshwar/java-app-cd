@@ -56,7 +56,7 @@ pipeline {
             }
         }
         
-        stage('Namespace creation') {
+        stage('Namespace creation/Validation') {
             steps {
                 script {
                     def exists = sh(script: "kubectl get namespace ${NAMESPACE} -o yaml", returnStatus: true) == 0
