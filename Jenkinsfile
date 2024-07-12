@@ -74,8 +74,8 @@ pipeline {
                 sh '''
                 sed -i 's|\${Image_name}|${params.Image_name}|g' Deployment.yml
                 sed -i 's|\${Tags}|${params.Tags}|g' Deployment.yml
-                kubectl apply -f Deployment.yml -f ingress.yaml -n ${NAMESPACE}
-                kubectl apply -f ingress.yaml -n ${NAMESPACE}
+                kubectl apply -f Deployment.yml-n ${NAMESPACE}
+                kubectl apply -f ingress.yml -n ${NAMESPACE}
                 '''
             }
         }
